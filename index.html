@@ -1,48 +1,194 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title>CV</title>
-	<meta charset="utf-8">
-	<link rel="stylesheet" type="text/css" href="./css/index.css">
+    <link rel="icon" href="favicon.png" type="image/png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Генератор принятия решений</title>
+    <style>
+        /* Основные стили */
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            text-align: center;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            word-wrap: break-word;
+            padding: 0 10px;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            width: 90%;
+            max-width: 300px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            color: #ffffff;
+            background: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background 0.3s;
+            width: 90%;
+            max-width: 200px;
+        }
+
+        button:hover {
+            background: #45a049;
+        }
+
+        .response {
+            margin-top: 30px;
+            font-size: 20px;
+            font-weight: bold;
+            opacity: 1;
+        }
+
+        /* Footer */
+        footer {
+            position: absolute;
+            bottom: 10px;
+            font-size: 12px;
+            color: #777;
+            text-align: center;
+            width: 100%;
+        }
+
+        /* Стили текста в футере */
+        .footer-text {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .footer-text div {
+            margin: 2px 0;
+        }
+
+        /* Instagram иконка */
+        .instagram-icon {
+            width: 14px;
+            height: 14px;
+            display: inline-block;
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png');
+            background-size: cover;
+            vertical-align: middle;
+            margin-left: 5px;
+        }
+
+        footer a {
+            color: #333;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #333;
+        }
+
+        /* Адаптивные стили */
+        @media (min-width: 768px) {
+            h1 {
+                font-size: 2.2em;
+            }
+            input {
+                font-size: 18px;
+                max-width: 400px;
+            }
+            button {
+                font-size: 18px;
+                max-width: 250px;
+            }
+            .response {
+                font-size: 24px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            h1 {
+                font-size: 2.5em;
+            }
+            input, button {
+                max-width: 300px;
+            }
+            .response {
+                font-size: 28px;
+            }
+        }
+    </style>
 </head>
 <body>
-		<header class="header">
-			<a href="#About" class="header-link link">About</a>
-			<a href="#Skills" class="header-link link">Skills</a>
-			<a href="#Contacts" class="header-link link">Contacts</a>
-		</header>
-	<main class="main">
-		<h1 class="title">Tasbolat Kambarov - Frontend developer</h1>
-		<div class="wrapper">
-			<img src="./pic/01.jpg" alt="pic" width="400" class="img">
-		</div>
-		<h2 class="subtitle" id="About">About myself</h2>
-		<p>Born in KZ living in a town - Burabay. Currently working for City Administration as a Project Manager.</p>
-		<h2 class="subtitle" id="Skills">Skills</h2>
-		<p>
-			<ul>
-				<li>HTML5</li>
-				<li>CSS3</li>
-				<li>JS</li>
-				<li>Guitar</li>
-			</ul>
-		</p>
-		<h2 class="subtitle">Portfolio</h2>
-		<p>
-			<a href="https://github.com/tasbolatkambarov?tab=repositories">GitHub</a>
-		</p>
-		<h2 class="subtitle" id="Contacts">Contacts</h2>
-		<p>Phone:
-		+7 702-465-26-77
-		</p>
-		<p>Email:
-		<a href="mailto:tk@gmail.com">tasbolatkambarov@gmail.com</a>
-		</p>
-	</main>
-	<footer class="footer">
-		<span>&reg; Tasbolat Kambarov<br>&#169; all rights reserved
-		&bull; 2021
-		</span>
-	</footer>
+
+    <h1>Генератор принятия решений</h1>
+    <input type="text" id="question" placeholder="Задай свой вопрос...">
+    <button onclick="getAnswer()">Принять решение</button>
+    <div class="response" id="response"></div>
+
+    <footer>
+        <div class="footer-text">
+            <div>® Tasbolat Kambarov <a href="https://www.instagram.com/taskamba/" target="_blank"><div class="instagram-icon"></div></a></div>
+            <div>© All rights reserved • 2024</div>
+        </div>
+    </footer>
+
+    <script>
+        // Список ответов
+        const answers = [
+            "Да", "Нет", "Может быть", "Однозначно", "Сомневаюсь", "Решай сам", "Время покажет",
+            "Почему бы и нет?", "Не сейчас", "Определённо да!", "Не стоит", "Спроси еще раз",
+            "Лучше воздержаться", "Да, но будь осторожен", "Нет, но подумай еще раз",
+            "Конечно", "Скорее всего", "Навряд ли", "Абсолютно точно", "Я бы не стал",
+            "Мечты сбываются", "Пока нет", "Попробуй позже", "Обязательно!", 
+            "Сейчас не лучшее время", "Твоя интуиция подскажет", "Не рассчитывай на это",
+            "Это маловероятно", "Сделай это", "Перспективы хорошие", "Не рискуй",
+            "Ответ очевиден: да", "Подожди ещё немного", "Ты уже знаешь ответ", 
+            "Возможно, но не сейчас", "Все возможно", "Есть вероятность", "Ответ будет позже",
+            "Доверься интуиции", "Жди сигнала", "Судьба улыбнется тебе", 
+            "Конечно, нет", "Действуй смело!", "Почти да", "Почти нет", "Ты знаешь, что делать",
+            "Слишком рано", "Позже", "Без сомнений", "Лучше нет"
+        ];
+
+        function getAnswer() {
+            const questionInput = document.getElementById('question');
+            const question = questionInput.value.trim();
+            const responseDiv = document.getElementById('response');
+
+            if (!question) {
+                responseDiv.textContent = "Пожалуйста, задайте вопрос!";
+                return;
+            }
+
+            const regex = /^[A-Za-zА-Яа-яЁё\s?]+$/;
+
+            if (!regex.test(question)) {
+                responseDiv.textContent = "Ошибка: Пожалуйста, задайте вопрос!";
+                return;
+            }
+
+            const randomAnswer = answers[Math.floor(Math.random() * answers.length)];
+            responseDiv.textContent = randomAnswer;
+        }
+    </script>
+
 </body>
-</html>		
+</html>
